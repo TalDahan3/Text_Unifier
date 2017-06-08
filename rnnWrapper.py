@@ -7,10 +7,8 @@ import subprocess
 import time
 import ConfigParser
 import shutil
-import copy   
-    
+import copy
 
-    
     
 def getCharsOnly(bigString):
     results = ""    
@@ -88,14 +86,14 @@ def sampleFile(param,numOfIterations):
     paramForPreProc =["python","scripts/preprocess.py","--input_txt",\
     "","--output_h5",".h5","--output_json",".json","--val_frac","0.3","--test_frac","0.3"]
     
-    paramForLossCalc = ["th","LossCalc.lua","-init_from","cv/checkpoint_41520.t7","-input_h5",\
+    paramForLossCalc = ["th","LossCalc.lua","-init_from","cv/checkpoint_10000.t7","-input_h5",\
     ".h5","-input_json",".json","-gpu","-1",]
     
     input_idx = 3
     outputH5_idx = 5
     outputJSON_idx = 7
     
-    #creating file for the resaults - override if exists
+    #creating file for the loss calculation resaults - override if exists
     with open("Results.txt","w") as resFile:
         resFile.write("Start Sampling")
         
@@ -140,7 +138,7 @@ def sampleFile(param,numOfIterations):
         with open("Results.txt","a") as resFile:
             resFile.write(val_loss)
             
-        paramForLossCalc = ["th","LossCalc.lua","-init_from","cv/checkpoint_41520.t7","-input_h5",\
+        paramForLossCalc = ["th","LossCalc.lua","-init_from","cv/checkpoint_10000.t7","-input_h5",\
         ".h5","-input_json",".json","-gpu","-1",]
               
         
@@ -196,7 +194,7 @@ def start():
 
 if __name__ == "__main__":
     sampleList = ["th","sample.lua","-checkpoint",\
-    "cv/checkpoint_10000.t7","-start_file","input text/Tal_King","-gpu","-1"]
+    "cv/checkpoint_10000.t7","-start_file","input text/zeev","-gpu","-1"]
     sampleFile(sampleList,10000)
 
     #trainList = ["th","train.lua","-input_h5",\

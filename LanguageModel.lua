@@ -126,11 +126,39 @@ function LM:encode_string(s)
   for i = 1, #s do
     local token = s:sub(i, i)
     local idx = self.token_to_idx[token]
-    assert(idx ~= nil, 'Got invalid idx')
+    assert(idx ~= nil, 'Got invalid idx, token: ' ..token)
     encoded[i] = idx
   end
   return encoded
 end
+
+
+function LM:encode_string_without_Invalid_Tokens(s)
+  local encoded = torch.LongTensor(#s)
+  local invalid = 0
+  for i = 1, #s do
+    local token = s:sub(i, i)
+    local idx = self.token_to_idx[token]
+    if idx ~= nil then
+	encoded[i] = idx
+    else
+    	invalid = invalid+1
+    end    	
+  end
+  local length = #s-invalid
+  local encodedAfterFilter = torch.LongTensor(length)
+  local index = 1
+  for j=1, #s do
+	local token = s:sub(j, j)
+	local idx = self.token_to_idx[token]
+        if idx ~= nil then
+		encodedAfterFilter[index] = idx
+		index = index +1
+	end
+  end	
+  return encodedAfterFilter
+end
+
 
 
 function LM:decode_string(encoded)
@@ -171,7 +199,7 @@ function LM:sample(kwargs)
     if verbose > 0 then
       print('Seeding with: "' .. start_text .. '"')
     end
-    local x = self:encode_string(start_text):view(1, -1)
+    local x = self:encode_string_without_Invalid_Tokens(start_text):view(1, -1)
     local T0 = x:size(2)
     sampled[{{}, {1, T0}}]:copy(x)
     scores = self:forward(x)[{{}, {T0, T0}}]

@@ -1,0 +1,704 @@
+                                                          Journal of Informetrics 10 (2016) 439–453
+
+
+
+                                                       Contents lists available at ScienceDirect
+
+
+                                                       Journal of Informetrics
+                                          journal homepage: www.elsevier.com/locate/joi
+
+
+
+
+Modeling and visualization of media in Arabic
+Zeev Volkovich a,b,∗ , Oleg Granichin c , Oleg Redkin c , Olga Bernikova c
+a
+  Department of Software Engineering, ORT Braude College, Karmiel 21982, Israel
+b
+  Department of Mathematics and Statistics, University of Maryland, Baltimore County, 1000 Hilltop Circle, Baltimore, USA
+c
+  Research Laboratory for Analysis and Modeling of Social Processes, Saint Petersburg State University, 7-9, Universitetskaya Nab.,
+St. Petersburg 199034, Russia
+
+
+
+
+a r t i c l e         i n f o                          a b s t r a c t
+
+Article history:                                       In this paper, a novel method for analyzing media in Arabic using new quantitative char-
+Received 18 December 2015                              acteristics is proposed. A sequence of newspaper daily issues is represented as histograms
+Accepted 29 February 2016                              of occurrences of informative terms. The histograms closeness is evaluated via a rank cor-
+                                                       relation coefﬁcient by treating the terms as ordinal data consistent with their frequencies.
+Keywords:                                              A new characteristic is introduced to quantify the relationship of an issue with numerous
+Media quantization                                     earlier ones. A newspaper is imaged as a time series of this characteristic values affected by
+Visualization
+                                                       the current social situation. The change points of this process may indicate ﬂuctuations in
+Arabic text segmentation
+                                                       the social behavior of the corresponding society as is evident from changes in the linguistic
+                                                       content. Moreover, the similarity measure created by means of this characteristic makes
+                                                       it possible to accurately derive the groups of homogeneous issues without any additional
+                                                       information. The methodology is evaluated on sequential issues of an Egyptian newspaper,
+                                                       “Al-Ahraam”, and a Lebanese newspaper, “Al-Akhbaar”. The results exhibit the high abil-
+                                                       ity of the proposed approach to expose changes in the linguistic content and to connect
+                                                       them with changes in the structure of society and the relationships in it. The method can
+                                                       be suitably extended to every alphabetic language media.
+                                                                                                           © 2016 Elsevier Ltd. All rights reserved.
+
+
+
+
+1. Introduction
+
+    The spread of digitized resources to a high level of the information society allows automatically retrieving data from
+observations using modern technologies. In this regard, new approaches are required for processing documents on the basis
+of a scrupulous analysis of graphics and morphology; in particular, analyzing peculiarities of the entire linguistic system, for
+example the Arabic mass media, as a whole.
+    Any mass media may be considered as a system operating according to its own underlying rules. Thus, the system behavior
+and properties depend on the internal features and stimulus as well as on surrounding factors. One of the possible illustrations
+is a relationship between the language of the mass media and the society. Like any other kind of media, newspaper editorial
+processes may be considered as a feedback system, which reﬂect changes in the natural and social environment in some
+ways through personal (author’s) or corporative (editorial policy) perceptions and evaluations of reality. In other words, a
+modern newspaper can be imagined as a mirror reﬂecting changes in the life of the society. The language of the press itself
+has many peculiarities, which differ from one printed edition to another and depend on the articles’ categories and on the
+publishing period.
+
+
+    ∗ Corresponding author at: Department of Software Engineering, ORT Braude College, Karmiel, 21982, Israel. Tel.: +972 504041359; fax: +972 49901852.
+      E-mail address: vlvolkov@braude.ac.il (Z. Volkovich).
+
+http://dx.doi.org/10.1016/j.joi.2016.02.008
+1751-1577/© 2016 Elsevier Ltd. All rights reserved.
+440                                    Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+    This paper aims at emerging methods for the mathematical modeling and visualization of media in Arabic, and possibly
+in other languages, using new quantitative attributes. It strives to expose one kind of discrete markers, which are essential
+for identifying points signaling changes in the linguistic content connected to ﬂuctuations in the political and economic
+life of a society. We consider a sequence of daily newspaper issues and represent them as histograms of informative terms
+chosen according to a central criterion. The shape closeness of these histograms is evaluated via a rank correlation coefﬁcient
+by treating the terms as ordinal data consistent with their frequencies. Aiming to identify changes in the issues’ style, we
+introduce a new characteristic representing the mean rank correlation of a current issue with numerous earlier ones. Change
+points of this feature can indicate, according to our perception, ﬂuctuations in social behavior causing changes in the linguistic
+content. Further, a similarity measure created through the introduced average rank correlation makes it possible to derive
+linguistically homogeneous groups of issues in an accurate manner and without any additional information.
+    The proposed methodology is evaluated on editorial texts published in the “Al-Ahraam” (“The Pyramids”) newspaper
+for the periods from 1.1.2010 to 31.1.2010, 1.1.2011 to 30.9.2011, and 1.1.2014 to 30.6.20141 ; and the “Al-Akhbaar” (“The
+News”) newspaper for the period 1.1.2010 to 31.12.20102 . These periods include several signiﬁcant events in the political
+and economic life of the appropriate societies (particularly, the ‘Arab Spring’ (Arabic: ?B4+H< ?B<4+H, ‘ar-rabı̄ ‘al-arabı̄), as
+well as changes in the ofﬁcial ideology.
+    The newspaper “Al-Ahraam” was founded in 1875 in Alexandria. It is the second oldest newspaper in Egypt and the most
+famous daily, not only in the country, but in the Arab world as a whole. It covers a wide array of problems ranging from
+politics and economy to sport and family issues and is, apparently, the most dominant newspaper in the Arab world. The
+other source is the Lebanese independent daily newspaper “Al-Akhbaar” (“The News”), which was founded in 1938 and is
+recognized as one of the most popular in Lebanon. Although these newspapers are published in different countries and are
+very dissimilar by their inherent nature, and the ﬁrst one is an ofﬁcial newspaper while the second one is independent,
+they simultaneously report on the start of the Arab Spring. Al-Ahraam (published in Egypt) reﬂects the events at a higher
+resolution because this newspaper is more inﬂuenced by those events and their dramatic developments happen mainly in
+Egypt.
+
+2. Material and mathematical preliminary
+
+   Our aim is to demonstrate the ways in which important social events can be recognized using the proposed methodology.
+As was mentioned earlier, to this end we consider sequential issues of two well-known daily newspapers “Al-Ahraam”
+(Arabic:   ; “The Pyramids”) and “Al-Akhbaar” (Arabic: “     The News”) published during the stated periods of particular
+interest.
+
+2.1. Vector Space Model
+
+    The ﬁrst attempts of formalization and automatic parsing of Arabic texts date to the beginning of the 1960s. However,
+implementation of such models was restricted both by difﬁculties of pure linguistic problems on one hand and backwardness
+of software on the other. Moreover, methods whose effectiveness in English or similar languages was proved, appeared to
+be ineffective when applied to Arabic (Beesley, 1989). Only starting in the 1980s (Koskenniemi, 1983), the development of
+Arabic linguistics brought methods of mathematical analysis, and technical advances made it possible to transform attitudes
+in various ﬁelds related to Arabic text processing such as computer translation, text segmentation, automatic conjugation
+and lemmatization, and optical character recognition. Nevertheless, in spite of all these positive developments, the accuracy
+of the software designed for Arabic appears to be insufﬁcient.
+    In this paper, we use a relatively simple yet robust N-gram based version of the common Vector Space Model (VSM). The
+general VSM representation ignores grammar and the order of terms but preserves the variety of terms. Each document is
+characterized through a terms frequency table against the vocabulary containing all the words (or “terms”) in all documents
+in the corpus. The tables are deemed as vectors in a linear space having dimensionality identical to the vocabulary size. We
+now consider the three most acceptable methods for vocabulary construction.
+
+2.1.1. Bag of Words (BoW) model
+    In this model, a document is represented as the distribution of its words. To reduce the space dimensionality, the stop-
+words are commonly removed because it is doubtful that these frequently arising words provide functional mining. Note
+that Arabic linguistic material has many peculiarities (Redkin & Bernikova, 2011) and is very challenging for researchers due
+to the richness of its vocabulary, cursiveness of its script and diversity of written variants of words, well-developed system
+of verbal conjugation and declension of nouns, variety and complexity of the paradigms of verbal and noun forms, regional
+lexical and morphological variants, and large number of preﬁxes, sufﬁxes, and particles and their written forms. In addition
+to all that, unlike other languages, Arabic has a system of broken plurals, which brings more difﬁculties. The picture becomes
+even more complex when taking into consideration local Arabic dialects and Modern Standard Arabic, which differ from one
+
+
+ 1
+      http://ahram.org.eg/.
+ 2
+      http://al-akhbar.com.
+                                                 Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453                 441
+
+Table 1
+Total number of N-grams in the “Al-Ahraam” newspaper collection.
+
+ N                                      2                          3                           4                   5         6
+
+ Quantity of N-grams                    8949                       39,732                      118,526             258,147   459,877
+
+
+
+
+another on every linguistic level: vocabulary, morphology, syntax, and phonetics. All this makes the total number of existing
+and theoretically possible forms very high, and, as a result, creation of models of automatic morphological classiﬁcation
+becomes extremely difﬁcult.
+   When BoW addresses Arabic, it is appropriate to accompany the model with a morphological analyzer for the so-called
+“functional (essential)” words acting as a criterion for clustering. Such a simpliﬁed representation of texts has been shown
+to be quite effective for a number of applications with the average accuracy about 68.781% (Abu-Errub, Odeh, Shambour, &
+Al-Haj, 2014). It also makes it possible to retrieve and classify texts in response to arbitrary databases without referring to
+systematic classiﬁed information (El-Monsef, Amin, El-Sayed, & El-Barbary, 2011).
+
+
+2.1.2. Keywords model
+   This is an off-shoot of the previously discussed model, where a document is represented as a bag not of all terms in the
+corpus but a bag of selected words that usually typify the topic of interest.
+
+
+2.1.3. N-grams model
+    An N-gram is a connecting sequence of N characters from a text. In this model, the “terms” are the sequences of symbols
+occurring in a slide window of length N. The N-gram approaches are widely applied in the text retrieval area, particularly
+in the Arabic text mining applications (see, for example, Ahmed & Nürnberger, 2009; Al-Thubaity, Alhoshan, & Hazzaa,
+2015; Khreisat, 2009; Sawaf, Zaplo, & Ney, 2001). The main reason to use N-grams is that the technique is recognized as
+being strongly insensitive to recorded mistakes and does not require any linguistic knowledge. Applications of the N-gram
+methodology have a tendency to ﬁlter out words’ afﬁxes aiming to expose by a formal way the words’ roots, which consist
+of three letters for the majority of Arabic words. In view of all the advantages mentioned, we base our considerations on this
+methodology.
+    It must be taken into account that the huge number of terms commonly produced when this approach is applied affects the
+classiﬁcation accuracy. Once N-grams are selected, the challenge is to strike an appropriate balance between their number,
+the precision they are able to attain while constructing classiﬁcation, and the chance of insertion of irrelevant attributes.
+Therefore, a feature selection procedure is most desirable.
+
+
+2.2. Feature selection
+
+    Obviously, a VSM document representation resting upon all N-grams appearing in a corpus leads to very sparse, high
+dimensional vectors. Note, even when the total N-grams number grows exponentially once N grows, it can vary among
+the text collections. The quantities of the N-grams appearing in the “Al-Ahraam” newspaper collection after stop words
+removing are given in Table 1.
+    The following procedure is applied in an attempt to reduce the quantity of the used N-grams (actually, to reduce the
+vector dimension in the VSM being applied) and to deal with a more reliable model. Most of the current N-grams are
+“sparse”; namely, they arise merely in small document fractions with relatively minor occurrences. The following ﬁgure
+demonstrates graphs of the occurrences of a “sparse” 3-gram (the left panel) and a “non-sparse (frequent)” one (the right
+panel) in 817 issues of the “Al-Ahraam” newspaper collection (Fig. 1).
+    A “sparse” N-gram is blind to the bulk of the issues; while on the other hand a “frequent” one exhibits a fair ability to
+separate the documents. We quantify connections between texts using a rank order correlation coefﬁcient calculated for
+two histograms presenting the occurrences of the appropriate N-grams in the issues. Involving the “sparse” N-grams in such
+estimation can supply unreliable outcomes.
+    First of all, we choose to work only with the N-grams having occurrences that are bigger than the ninth decile of the
+total N-gram occurrences in a corpus. This quantity is 3961 in the considered example. As we have seen, the occurrences of
+a “frequent” N-gram are expected to be satisfactorily dispersed. Examples corresponding to the N-grams discussed in Fig. 1
+are given in Fig. 2.
+    The left histogram is essentially concentrated at the origin, while the right one owns a relatively heavy tail, demonstrating
+signiﬁcant spreading and variety of the N-gram frequencies within the corpus. Consequently, the “heaviness” of such a
+histogram characterizes the sparsity of an N-gram. To quantify “heaviness”, we obtain the occurrences of the actual N-grams
+across all documents and quantify the tails of the histograms via the normalized median deﬁned as
+                                              
+              median fij ,     j = 1, . . ., m
+       Vi =                                 ,                                                                                   (1)
+               max fij ,     j = 1, . . ., m
+442                                             Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+
+
+      Fig. 1. Graphs of the occurrences of a “sparse” N-gram and a “non-sparse (frequent)” one, in 817 issues of the “Al-Ahraam” newspaper collection.
+
+
+
+
+                     Fig. 2. Histograms of occurrences of a “sparse” and a “frequent” 3-gram for the “Al-Ahraam” newspaper collection.
+
+
+
+where, fij is the (frequency of) occurrence of an N-gram i in a document j = 1, . . ., m. The minimal and the maximal values
+of the normalized median in the “Al-Ahraam” newspaper are 0 and 0.2131. The latter value corresponds to the “frequent”
+N-gram in Figs. 1 and 2. The normalized median is 0.0019 for the “sparse” 3-gram involved there.
+    We recognize an N-gram as “frequent” if its normalized median exceeds a given threshold level expressed as a fraction of
+100. In our respects, this threshold level consists of 99%. As motivation, for this choice we consider in what way the covering
+by the selected N-grams changes when the discussed threshold level runs from 90 to 99 with an increment of 1. To this end
+we calculate the fractions of the documents, which include these sequences.
+    The portions of the covered issues in the “Al-Ahraam” newspaper collection are presented in Fig. 3 as a threshold level
+function. As can be seen in Table 2, the quantities of the selected N-grams decrease monotonically.
+    Hence, a threshold level comprising 99% presents a balance point between the good covering and relatively low dimen-
+sionality of the feature space. Therefore, just one percent of the total N-grams are selected for inclusion in the forthcoming
+considerations. The depicted level demonstrates sufﬁciently reasonable results. However, further threshold values com-
+bined with various settings of the additional parameters can, in principle, conduct the similar behavior of the system. Note
+                                              Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453                                      443
+
+
+
+
+                    Fig. 3. Fractions of the issues covered by selected “frequent” 3-grams in the “Al-Ahraam” newspaper collection.
+
+
+Table 2
+Total quantities of the selected (NS) N-grams in the “Al-Ahraam” newspaper collection.
+
+ Threshold level               90       91            92            93            94            95              96       97           98      99
+
+ Percentage value                0.00     0.01          0.03          0.04          0.05          0.06            0.07     0.07        0.08    0.10
+ NS                            370      356           316           272           236           194             147      118          79      34
+
+
+
+that the percentage values corresponding to the considered threshold levels increase monotonically but remain relatively
+small. This fact exposes the inherent sparsity of the used VSM model. On the other hand, the number and the structure of
+the consecutive issue groups are signiﬁcantly inﬂuenced by the threshold level adoption. We discuss this phenomenon in
+the conclusion.
+
+2.3. Rank correlation
+
+   A ranking is an arrangement of the items in a given set such that the items are compared between themselves in order to
+have their own unique locations in a hierarchy. A rank correlation coefﬁcient measuring the connection between rankings of
+two ordinal variables is typically constructed to take values in the interval [−1, 1]; where 1 corresponds to perfect agreement
+among the ranks, the zero value links to completely independent ranks, and −1 represents complete disagreement; namely,
+the rankings are reversed. The most popular rank order correlation statistics are Spearman’s , Kendall’s , and Goodman
+and Kruskal’s  (see, for example, Kendall & Gibbons, 1990). We focus on the ﬁrst coefﬁcient, since only this one is used
+de-facto in our research, while each of these could be applied.                                                             
+   Let us consider a collection of n items arbitrated with two order scales X = xi , i = 1, . . ., n , Y = yi , i = 1, . . ., n
+taking the integer values in the interval [1, n]. The Spearman value  is calculated from:
+
+                        
+                        n
+
+                    6         di
+
+        =1−           i=1
+                                   ,                                                                                                              (2)
+                   n n2 − 1
+
+where, di , i = 1, n are the differences between corresponding ranks in the scales X and Y. Rank ties receive a rank equal to the
+mean of their position in the ascending order of the values. Spearman’s  is a well-known Pearson’s correlation coefﬁcient
+calculated on the ranks.
+
+2.4. Wavelets transform
+
+   Roughly speaking, a wavelet is a small wave, which is different from zero only on its individual time interval and has a
+bounded number of oscillations. The wavelet transform is a natural generalization of the Fourier transform, where signals
+are represented as a sum of sine and cosine functions at various frequencies. Fourier transforms indirectly assume that the
+studied function is stationary along the time axis like a melody composed by instruments playing individual notes each one
+with certain loudness. Wavelets are a collection of signal ﬁlters producing approximate and detailed signal representations,
+which are suitable placed in the space and frequency domains. This make it possible to provide more precise results over
+444                                                   Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+the Fourier transform by a multiresolution decomposition into different frequency components, where a window is moving
+through the signal, and for every location the spectrum is estimated. Then the procedure is reiterated with a slightly changed
+window for each round. The consequence is an assembly of time-frequency signal representations located on different
+resolutions level. This property is essential for studying a signal, which lasts only for a ﬁnite time, or exhibits signiﬁcantly
+dissimilar behavior in different periods.
+   Wavelets are constructed from a single original wavelet (t), termed the mother wavelet, by dilations and shifting:
+                    1
+                            t − b
+        a,b (t)   = √                      ,                                                                                    (3)
+                     a             a
+where, a is the scaling parameter and b is the shifting parameter (see, for example, Gonzalez & Woods, 2002). In most cases
+the special values for a and b are a = 2−j , b = k2−j , where, k and j are integers:
+                                      
+        jk (t)   = 2j/2         2j t − k .                                                                                      (4)
+   The Haar wavelet is apparently the simplest one generated by the “mother” function, which is a step function taking the
+values 1 and −1, on [0; 0.5] and [0.5; 1], respectively. Dilations and translations of this function provide an orthogonal basis
+for the space of all square integrable functions on the real line. So, each function in this space can be approximated by a
+linear combination of the basis wavelet functions. However, it is more assessable to use the following approximation:
+
+            
+            L               ∞ 
+                             L
+      f =         bk ϕk +              bjk     jk ,                                                                             (5)
+            k=1             j=0 k=1
+
+where, ϕk (t) = ϕ(t − k) is for the scaling (“father”) function and L is the approximation level. In the case of the Haar transform,
+ϕ is a step function taking value 1 on (0; 1). The coefﬁcients bk are the named approximation coefﬁcients (from the low-pass
+ﬁlter), and the coefﬁcients bjk are the detail coefﬁcients (from the high-pass ﬁlter).
+    In a real situation, most of the wavelet coefﬁcients are zero. Note that the recovery of the source signal is naturally based
+on the coefﬁcients, which are comparatively bigger than ones corresponding to the background noise. Hence, coefﬁcients
+owning minor magnitude can be interpreted as unadulterated noise and have to be adjusted to zero. Within the wavelet based
+smoothing methodology, each coefﬁcient is matched to a threshold aiming to determine if it is signiﬁcant for the recovery
+process. Such a technique is usually applied only to the detail coefﬁcients more willingly than to the approximation ones,
+since they typify the important ‘low-frequency’ signal parts, which are less inﬂuenced by noise. A reconstructed signal resting
+upon merely the coefﬁcients bk (where the detail coefﬁcients are set to zero) is called the approximation of the signal at the
+level. We use this approach aiming to ﬁnd the change points in the considered sequences and to estimate the model order
+in the clustering step.
+
+2.5. Clustering
+
+    Cluster analysis is the key mechanism intended to recognize meaningful homogeneous groups, named clusters, in the data.
+It circuitously presumes that there is an inner similarity between items belonging to the same cluster, which is signiﬁcantly
+higher between elements from different clusters. Clustering algorithms are often constructed to minimize an objective
+function describing the partition’s distortion. For example, the well-known K-means algorithm intends to decrease the
+within-cluster sum of squares (MacQueen, 1967).
+    The Partitioning Around Medoids (PAM) algorithm (Kaufman & Rousseeuw, 1990) is another well-known clustering
+algorithm. In comparison to the K-means procedure, PAM is more robust, because it minimizes a sum of dissimilarities instead
+of a sum of the squared Euclidean distances and is capable of handling an arbitrary matrix of distances. The algorithm initiates
+a set of medoids (central cluster points) and tries iteratively to exchange one of them with one of the non-medoids, aiming
+to decrease the total distortion. PAM performs more suitably for relatively small data due to its quadratic complexity with
+respect to the number of items. As for most of the cluster partitioning algorithms, PAM has the data to be clustered and the
+suggested number of clusters as its input parameters. The last parameter is commonly estimated within the cluster validation
+methodology. (A review of the appropriate papers can be found, for instance, in Granichin, Volkovich, & Toledano-Kitai, 2015;
+Volkovich, Barzily, Weber, Toledano-Kitai, & Avros, 2011.)
+    For our purposes the data is partitioned using the PAM algorithm for the number of clusters between 2 and k* , where this
+quantity equals the number of the change points found, +1. Then, a procedure proposed for the ﬁrst time in this paper is
+applied to choose the most suitable partition from among the obtained ones. The maximal number of clusters assessment
+k* suits the very natural suggestion that the articles published in a period between two chronological change points may
+appear to be similar to one another, and the papers published at different intervals may also be similar.
+
+3. Methodology
+
+   In this section, a mathematical description of the proposed methodology is presented. We introduce a new measure,
+named the Mean Rank Dependency, for evaluation of the similarity between two given issues. Resting upon this novel
+notion we present a new method for detecting possible changes in social conditions reﬂected by the alterations in the
+                                                Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453             445
+
+
+media. Finally, to reﬁne the results, the media is clustered using a new similarity measure based on the proposed Mean Rank
+Dependency.
+
+3.1. Mean Rank Dependency
+
+    The main drawback of the common methods of similarity evaluation between two documents is that they estimate the
+similarity of two speciﬁc texts without any regard to their environments. For instance, for newspapers the similarity is
+appraised without any respect to earlier issues. Note that one of the common standpoints of the human writing process
+(see, Harmer, 2006), suggests this development to be composed of four main ingredients: planning, drafting, editing, and
+writing the ﬁnal draft. Combination of these components leads to the obvious conclusion that a book’s parts are inherently
+connected to previously written ones. The supposition is also partially correct when we are speaking about newspaper issues.
+It is natural to assume that dependence between sequential issues is kept at approximately the same level for an ofﬁcial
+newspaper if the social situation is relatively stable, and may diminish otherwise. So, a newspaper publishing process is
+imaged as a time series generated by an author or a group of authors according to their individual writing styles and affected
+by issues association with ones transcribed earlier and by the current social state.                              
+    Formally, in the framework of our model, we consider a series of m sequential documents D1 , D2 , . . ., Dm such that
+each document is presented by means of the VSM as an N-gram histogram using a vocabulary GN of the selected features. The
+question is, how can a connection between histograms be quantiﬁed? It seems quite natural to examine similarity between
+the histogram shapes rather than between speciﬁc frequency values. Consistent with our perception, an (ascending or
+descending) order of the different N-grams outlined by their frequencies values, but not by their actual values themselves,
+deﬁnes the style. Furthermore, the histograms are treated as a kind of ordinal data such that the frequency values are
+regarded as the rank positioning of the corresponding terms. Hence, a rank correlation coefﬁcient is a reasonable tool to
+quantify histogram association.
+    Fig. 4 represents two examples of similar (the top panel) and dissimilar histograms (the bottom panel), where Spearman’s
+ (a value of a rank correlation coefﬁcient) equals 0.94 and −0.92, respectively. Note that this method of histogram compar-
+ison has been successively applied to visual word histogram relationship evolution (see, for example, Ionescu & Popescu,
+2015), and for clustering genomes within the compositional spectra approach (Bolshoy, Volkovich, Kirzhner, & Barzily, 2010;
+Volkovich, Kirzhner, Bolshoy, Korol, & Nevo, 2005).
+                                             
+    Futher, we introduce the Mean Rank Dependence,       which characterizes  the mean relationship between the current paper
+Di and the set of its T “precursors”; i,T = Dj , j = i − T, . . ., j = 1 − 1 :
+
+                        1                     
+      ZVT Di , i,T =                      Di , Dj ,    i = T + 1, . . ., m                                                 (6)
+                          T
+                              Dj ∈ i,T
+
+
+    The following ﬁgure exhibits examples of graphs constructed from the “Al-Ahraam” data for T = 20 (the top panel) and
+T = 1 (the bottom panel) (Fig. 5).
+    As expected, the second curve appears noisy, and the ﬁrst one appears to be a smoother version. Two suggested change
+points (marked in red on the ﬁrst graph, where the dependency sharply decreases) suggest two changes in the newspaper
+style inspired by ﬂuctuations in the social state of affairs.
+
+3.2. Change points detection via the Haar discrete wavelet transform
+
+   Change point detection is a general methodology aiming to identify at what time a time series signiﬁcantly changes.
+These alterations are commonly expressed by ﬂuctuations in various statistical characteristics of the series and discovered
+by means of different approaches. Here we apply our own smoothing method, establishing an application of the Haar wavelet
+transform. A signal approximation is calculated at a certain level (say, six), and its signiﬁcant absolute differences allocate
+the change points. The procedure is illustrated in Fig. 6.
+   Here, the top panel demonstrates the actual series, the middle one corresponds to the approximation of the signal at
+level 6 (see Section 2.3), and the bottom panel exhibits the absolute differences calculated for the second graph. A jump is
+accepted as signiﬁcant (marked by a circle) if its size is not less than half of the overall maximal jump. Two signiﬁcant change
+points are actually detected.
+
+3.3. Partitioning of texts in homogeneous groups
+
+   The subsequent ingredient of the presented approach is a new methodology for partitioning issues into homogeneous
+groups. This problem is naturally connected to document clustering (or text clustering) studied in many areas of text mining
+and information retrieval. Aiming to divide the issues into homogeneous groups, we introduce a new distance function that
+measures text diversity through the mean correlation mentioned earlier of a document with its previous neighbors:
+                                                                                                          
+      DZVT (Di , Dj ) = abs ZVT (Di , i,T ) + ZV (Dj , j,T ) − ZV (Di , j,T ) − ZV (Dj , i,T )                           (7)
+446   Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+
+
+        Fig. 4. Examples of similar and dissimilar histograms.
+
+
+
+
+                    Fig. 5. Examples of ZVT graphs.
+                                       Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453                        447
+
+
+
+
+                                               Fig. 6. Example of change point detection.
+
+
+    Here, the correlation of a text with neighbors of other texts is subtracted from the correlation with its own neighbors. It
+is easy to see that DZVT (D, S) ≥ 0 for all D and S, and DZVT (D, D) = 0 for each D. However, from DZVT (D, S) = 0, it cannot be
+formally concluded that the papers D and S are undistinguishable. Therefore, this similarity measure is just a semi-metric. On
+the other hand, if the documents are identically connected with their own previous neighbors and the previous neighbors
+of other documents, then they are identical from the point of view of the writing process. Practically, the offered similarity
+may be used in a clustering algorithm in our context.
+
+4. Results
+
+4.1. “Al-Ahraam” dataset
+
+   The ﬁrst dataset we consider consists of 817 issues of the “Al-Ahraam” newspaper published in
+
+• 1.1-31.1. 2010;
+• 1.1-30.9. 2011; and
+• 1.1.2014-30.6.2014.
+
+    First, the stop words were excluded. The analysis provided is based on the 34 most informative 3-grams chosen according
+to the feature selection methodology stated in Section 2.2 with the delay parameter T = 20. The graphs of the ZVT values
+calculated for T = 20 and T = 1 are presented in Fig. 5. Change point analysis performed according to the wavelet transform
+based methodology stated earlier, at the level L = 6, is given in Fig. 6. Recall that a peak indicating a change point on the last
+graph is accepted as signiﬁcant if its size is not less than the maximal jump size. Two found change points make it possible to
+assume a maximum of three different styles of the considered issues. However, we will see later that such a solution admits
+a reﬁning.
+    As mentioned above, we use the PAM algorithm for clustering. However, the data themselves are not clustered directly.
+Every issue is composed as a vector with coordinates, which corresponds to the issue distances for all issues under consid-
+eration. Such a representation makes it possible to produce more coherent clusters in a new Euclidian space obtained via
+data embedding.
+    “Pure” or “smooth” clusters are hardly expected to appear in the media documents due to their inherent noisiness. To
+overcome this we smooth out the obtained solutions using the wavelet approximation discussed earlier for level L = 6, and
+round the result to the nearest integer, which is less than or equal to the value. The outcomes are presented in the following
+graphs as functions of the issue number found in the interval [21, 817]. (Recall that the ﬁrst T points are not involved in the
+clustering.) We stop the clustering process once the quantity of cluster labels in the smooth graph is less than the one in the
+source graph. Consequently, we suggest that the false noisiness disappears during the smoothing process. If the number of
+448                                           Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+
+
+                                             Fig. 7. Partitioning into two clusters with its smooth version.
+
+
+
+the actual clusters decreases in a smoothed partition then it could mean that the artiﬁcial clusters were omitted. Clustering
+with this or a bigger number of clusters is meaningless because it leads to false unstable partitions (Fig. 7).
+   Let us consider the change points of the cluster assignment. The ﬁrst change point occurs in the upper graph around the
+position 370, corresponding to 5.1.2011. This position is sufﬁciently close to 25.1.2011, when many demonstrators grouped
+in Cairo’s Tahir Square demanded the resignation of the President Hosni Mubarak. See, for instance, “Al-Ahraam” from
+25.01.2011; editorial headlines:
+                                                                       3
+
+
+         “Protests and security cordons in central Cairo and other governorates, casualties among citizens and police forces.”
+                                              4
+
+
+         “Security source: Ministry of Internal Affairs calls for gathered not to be misled by false slogans.”
+   Apparently, the newspaper issues were slightly amended before this date, reﬂecting a change in sentiment in the Egyptian
+society. The next change point groups occur around position 641, corresponding to 3.1.2014 and around 21.3.2014. This
+coincides with the date of the nomination of the new editor and editor-in-chief of “Al-Ahraam”5 :
+
+
+         “An-Naggaar(is nominated) the head of administration of Al-Ahraam and Abdel HaadiAllaam—the head of editorial
+         council.”
+   Named groups vanish during the ﬂattening seemingly due to the brevity of the second ﬂuctuation period. This phe-
+nomenon is analyzed in the following partition into the three clusters obtained by our method (Fig. 8).
+   The smooth version indicates the presence of three or four different possible global styles. The ﬁrst signiﬁcant ﬂuctua-
+tion point in the original (non-smooth) partition of the cluster assignment (one of 48 such points) arises at position 367,
+corresponding to 2.1.2011, which matches the ﬁrst change point in the previously discussed partitioning into two clusters.
+A dense group of the ﬂuctuation points occurs at positions 535-632, corresponding to the time interval from 9.6.2011 to
+24.9.2011 and possessing the highest variability. The style here oscillates between the one deﬁned by the “revolution” and
+another new one. It can be assumed that the chaotic style behavior in the upper graph is caused by an unstable political
+
+
+
+ 3
+      http://www.ahram.org.eg/Archive/news/2011/1/25/index.aspx. Retrieved 29.08. 2015.
+ 4
+      http://www.ahram.org.eg/Archive/news/2011/1/25/index.aspx. Retrieved 29.08. 2015.
+ 5
+      http://www.ahram.org.eg/Index.aspx?IssueID=1053. Retrieved 29.08.2015.
+                                               Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453                    449
+
+
+
+
+                                             Fig. 8. Partitioning into three clusters with its smooth version.
+
+
+
+situation. The next visible period starts approximately from position 690 (21.2.2014) and ends at 714 (19.3.2014). After day
+number 727 (1.4.2014), the style completely stabilizes.
+    According to the announcement by Reuters6 , “Egypt’s government resigned on Monday (24.2), paving the way for the army
+chief Field Marshal Abdel Fattah al-Sisi to declare his candidacy for president of a strategic U.S. ally gripped by political strife”.
+It is fairly close to Friday 21.2.2014. On 24.3.2011, an Egyptian court condemned 529 followers of the Muslim Brotherhood
+to death7 . The overall newspaper style stabilized after this verdict. It is curious to consider the solution obtained for four
+clusters (Fig. 9):
+    Roughly speaking, the source graph demonstrates the trends occurring in the three-cluster case. However, a smooth
+version declares only two different styles. Hence, this solution cannot be accepted as a stable one, and the discussed partition
+into three clusters appears to be the optimal one balanced between accuracy and stability. Summarizing, we can conclude
+that the provided analysis discloses four states of the global style, correctly singling out alterations in the social environment:
+
+•   Beginning of the Arab Spring and overthrow of Hosni Mubarak.
+•   Instability period caused by protests against the Muslim Brotherhood government.
+•   Al-Sisi declaring candidacy for president.
+•   A government verdict condemning 529 followers of the Muslim Brotherhood to death.
+
+4.2. “Al-Akhbaar” Dataset
+
+    The second dataset comprises 365 issues of the Lebanon newspaper “Al-Akhbaar” published between 1.1.2010 and
+31.1.2011. The stop-words were excluded. The results presented in Table 3 show that although there are fewer issues
+in comparison with the “Al-Ahraam” newspaper, the total quantities of the arising N-grams is much greater. Evidently, this
+newspaper covers more topics, using a more diverse vocabulary.
+    Like the previous case, the 151 most informative 3-grams are chosen, consistent with the formerly stated feature selection
+methodology, and used with the same value of the delay parameter T = 20. A substantial distinction between the structures
+of the considered newspapers is also visible by the behavior of the appropriated ZVT values (see, Fig. 10).
+    At the outset, the ZVT processes look moderately stationary. A possible non-stationarity is expressed by relatively small
+amplitudes in the ﬁnal phase. However, our methodology successfully reveals meaningful sequential subgroups of the issues
+(Fig. 11).
+
+
+
+    6
+        http://uk.reuters.com/article/2014/02/24/uk-egypt-politics-idUKBREA1N0KM20140224.
+    7
+        http://www.dawn.com/news/1095268/egypt-sentences-529-morsi-supporters-to-death.
+450                                            Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+
+
+                                            Fig. 9. Partitioning into four clusters with its smooth version.
+
+
+Table 3
+Total numbers of N-grams in the “Al-Akhbaar” newspaper collection.
+
+ N                                    2                          3                          4                    5           6
+
+ Amounts of N-grams                   17,146                     154,883                    913,276              3,336,397   8,089,483
+
+
+
+
+                                                    Fig. 10. ZVT graphs calculated for T = 20 and T = 1.
+
+
+   The maximal possible number of the homogeneous groups is estimated to be ﬁve. Taking into account the quasi-stationary
+performance of the process, we apply the cluster assignment smoothing procedure (described earlier) at the level L = 2 and
+obtain that the true number of clusters is two (Fig. 12):
+   The least oscillating interval in the upper graph [348, 355], which is indicated as the second cluster in the bottom graph,
+equates to the period from 14.12.2010 to 21.12.2010. According to some publications in the mass media (Yasmine, 2011;
+Tucker, 2014), the Tunisian Revolution (also known as the Jasmine Revolution) commenced on 18.12.2010 and caused the
+overthrow of President Zine El Abidine Ben Ali on 14.1.2011. The civil resistance protests were initiated by the suicide of
+                                       Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453                       451
+
+
+
+
+                                         Fig. 11. Change points of the process for “Al-Akhbaar”.
+
+
+
+
+                                      Fig. 12. Partitioning into two clusters with its smooth version.
+
+
+
+Mohamed Bouazizi on 17.12.2010, when he burned himself to death. This date is correctly located within the found interval,
+but the partitioning shows that after several days, the style returned to what it was before the noted event in Tunisia. Clearly,
+this incident did not happen in Lebanon and its inﬂuence on the Lebanon media evaporated after very short period.
+
+5. Discussion and conclusion
+
+   This paper proposes a new systematic approach for modeling and visualization of the Arabic media. New methods of
+mathematical analysis along with existing ones were developed and checked. By doing so, this article has made the following
+contributions. Newspaper issues are exhibited by means of a histogram silhouette attained via N-gram frequency ranks.
+452                                         Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453
+
+
+
+
+                       Fig. 13. Partitioning into three clusters with its smooth version, obtained for 10% of the best 3-grams.
+
+
+Further, the Mean Rank Dependency introduced in this paper and speciﬁed as the mean rank correlation of the current
+issue with its numerous “precursors”, leads to a time series quantiﬁed representation of a newspaper. We have considered
+two dailies that differ in nature; however, the offered method demonstrated high ability to accomplish very consequential
+outcomes, well indicating changes in the social state.
+    One of the key aspects of the method consists of satisfactory feature selection. So, selecting 10% of the best 3-grams to
+be involved in the analysis, we get, according to our method, that the true number of clusters for “Al-Akhbaar” newspaper
+equals two with the partitioning given in Fig. 13. In comparison with the end result found using just 1% of the best 3-grams
+(see Fig. 7); the partitioning is much smoother but skips the style modiﬁcation after Al-Sisi’s ascent to power.
+    According to this result, the style was recovered after Al-Sisi started competing for the position of president. This solution
+appears also to be more realistic in comparison with the solution for two clusters. However, the solution given in Fig. 7 is
+more plausible.
+    Generally, the threshold in the feature selection may consecutively decrease, aiming to reach a balance point where a
+new stable solution arises. Therefore, the considered “ill-posed” problem can have several possible answers allocated at the
+different resolution levels. Note that increasing the threshold up to 10% in experiments with the second newspaper does
+not affect the partition, which appears to be the natural unique solution in this case.
+    An analogous system response emerges when the delay T changes when preserving the chosen N-grams collection. As
+expected, larger values for this parameter are expected to lead to ﬂatter results; and, practically, the obtained partitions
+stop changing when T exceeds some constraint. However, different combinations of T with an appropriate feature set may
+produce similar classiﬁcations. One of the purposes of future research includes ﬁnding possible regularization strategies for
+the considered problem.
+    Future research directions may be several text mining applications. First of all the methodology can obviously be extended
+to other alphabetic languages. In addition, the proposed viewpoint is appropriate to plagiarism detection in cases where
+plagiarism is conveyed by the heterogeneity of a text style. An additional application of our method may be separating
+between real and artiﬁcially produced scientiﬁc manuscripts.
+
+Acknowledgments
+
+   The funding no. 15.61.2219.2013 from Saint Petersburg State University (Russia) to support this research project is
+gratefully acknowledged. The authors would like to thank the anonymous reviewer for serious and constructive suggestions
+and comments that help to improve the manuscript meaningfully.
+
+Author contribution
+
+      Conceived and designed the analysis: Zeev Volkovicha and Oleg Granichin.
+      Deﬁned the problem, provided linguistic analysis of the results, selected data.
+                                                 Z. Volkovich et al. / Journal of Informetrics 10 (2016) 439–453                                             453
+
+
+    Contributed data or analysis tools: Zeev Volkovicha and Oleg Granichin.
+    Performed the analysis: Zeev Volkovicha and Oleg Granichin.
+    Wrote the paper: Zeev Volkovicha, Oleg Granichin, Oleg Redkin, and Olga Bernikova.
+
+References
+
+Abu-Errub, A., Odeh, A., Shambour, Q., & Al-Haj, H. (2014). Arabic roots extraction using morphological analysis. IJCSI International Journal of Computer
+    Science Issues, 11(2), 128–134.
+Ahmed, F., & Nürnberger, A. (2009). Evaluation of N-gram conﬂation approaches for Arabic text retrieval. Journal of the American Society for Information
+    Science and Technology, 60(7), 1448–1465.
+Al-Thubaity, A., Alhoshan, M., & Hazzaa, I. (2015). Using word N-grams as features in Arabic text classiﬁcation. Software Engineering, Artiﬁcial Intelligence,
+    Networking and Parallel/Distributed Computing, Studies in Computational Intelligence, 569, 35–43.
+Beesley, K. (1989). Computer analysis of Arabic morphology: A two-level approach with detours. Perspectives on Arabic Linguistics III: Papers from the third
+    annual symposium on Arabic Linguistics (pp. 155–172). Amsterdam.
+Bolshoy, A., Volkovich, Z., Kirzhner, V., & Barzily, Z. (2010). Genome clustering: From linguistic models to classiﬁcation of genetic texts. Heidelberg, Germany:
+    Springer.
+El-Monsef, A., Amin, M., El-Sayed, A., & El-Barbary, O. (2011). A comparative study. Journal of Computing, 3(4), 23–32.
+Gonzalez, R. C., & Woods, R. E. (2002). Digital image processing (2nd ed.). Upper Saddle River, NJ, USA: Prentice Hall (January)
+Granichin, O., Volkovich, Z., & Toledano-Kitai, D. (2015). Randomized algorithms in automatic control and data mining (Intelligent Systems Reference Library).
+    Heidelberg, Germany: Springer.
+Harmer, J. (2006). How to teach writing. Delhi, India: Pearson Education.
+Ionescu, R. T., & Popescu, M. (2015). PQ kernel: A rank correlation kernel for visual word histograms. Pattern Recognition Letters, 55, 51–57.
+Kaufman, L., & Rousseeuw, P. J. (1990). Finding groups in data: An introduction to cluster analysis. Hoboken, NJ, USA: John Wiley & Sons.
+Kendall, M. G., & Gibbons, J. D. (1990). Rank correlation methods (5th ed.). London: Edward Arnold.
+Khreisat, L. (2009). A machine learning approach for Arabic text classiﬁcation using N-gram frequency statistics. Journal of Informatics, 3(1), 72–77.
+Koskenniemi, K. (1983). Two-level morphology: A general computational model for word-form recognition and production. Helsinki, Finland: Helsinki.
+MacQueen, J. B. (1967). Some methods for classiﬁcation and analysis of multivariate observations. In Lucien M. Le Cam, & Jerzy Neyman (Eds.), Proceedings
+    of 5th Berkeley symposium on Mathematical Statistics and Probability (Vol. 1) (pp. 281–297). University of California Press.
+Redkin, O., & Bernikova, O. (2011). On the optical character recognition and machine translation technology in Arabic: Problems and solutions. Proceedings of
+    the 2011 international conference on Artiﬁcial Intelligence, ICAI 2011 (vol. 2; pp. 861–867).
+Sawaf, H., Zaplo, J., & Ney, H. (2001). Statistical classiﬁcation methods for Arabic news articles. In Arabic Natural Language Processing in ACL2001.
+Tucker, J. (2014). Initial thoughts on Tunisia’s Jasmine Revolution—The monkey cage. Themonkeycage.org (accessed 02.05.14).
+Volkovich, Z., Kirzhner, V., Bolshoy, A., Korol, A., & Nevo, E. (2005). The Method of N-grams in large-scale clustering of DNA texts pattern recognition. Pattern
+    Recognition, 38(11), 1902–1912.
+Volkovich, Z., Barzily, Z., Weber, G.-W., Toledano-Kitai, D., & Avros, R. (2011). Resampling approach for cluster model selection. Machine Learning, 85(1–2),
+    209–248.
+Yasmine, R. (2011). How Tunisia’s revolution began—Features. Doha – Qatar: Al Jazeera. http://www.aljazeera.com/ (accessed 13.02.11).
+
