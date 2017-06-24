@@ -1,0 +1,2 @@
+th sample.lua -checkpoint cv/taltheking_1780.t7 -start_file input_text/zeev -gpu -1 
+3
