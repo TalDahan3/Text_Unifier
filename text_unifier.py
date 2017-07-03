@@ -260,9 +260,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow, QtCore.QObject):
         self.text_field.emit("I've started generating unified text!")
         while self.samplingInSession == True:
             time.sleep(2)
-            tmp_iter = runner.getIterNum()            
+            tmp_iter = (runner.getIterNum()-1)
+            print (str(tmp_iter))
+            print (self.loaded_unify_file)
             if tmp_iter < self.num_of_iterations:
-                tmp_txt = "I'm at iteration number: " + str(tmp_iter) + ' out of ' + str(self.num_of_iterations) + '\n'            
+                tmp_txt = "I'm at iteration number: " + str(tmp_iter+1) + ' out of ' + str(self.num_of_iterations) + '\n'            
                 self.text_field.emit(tmp_txt)
             else:
                 with open(self.loaded_unify_file + '_Final_OUTPUT', 'r') as f:
